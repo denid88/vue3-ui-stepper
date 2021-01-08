@@ -11,52 +11,51 @@ const App = {
         {title: 'Composition', text: 'Одним из наиболее важных обновлений в Vue 3 является появление альтернативного синтаксиса Composition API. В этом блоке вы узнаете все, чтобы полностью пользоваться данными синтаксисом на практических примерах. Помимо этого вы узнаете как работать совместно с Vue Router и Vuex.'},
       ],
       prevBtnText: 'Назад',
-      lastStepDescription: 'Вы полностью просмотрели программу курса, и теперь можете ознакомиться с ней с начала'
+      lastStepDescription: 'Вы полностью просмотрели программу курса, и теперь можете ознакомиться с ней с начала',
+      isFinish: false
     }
   },
   methods: {
     prev() {
-      if (this.activeIndex <= 0) return
-      this.setActive(--this.activeIndex)
+      this.activeIndex = this.activeIndex - 1
     },
     reset() {
       this.activeIndex = 0
+      this.isFinish = false
     },
     nextOrFinish() {
-      this.isResetReady ?
-        this.reset() :
-        this.setActive(++this.activeIndex)
+      if (this.isFinish) {return this.reset()}
+      if (this.isLastStep) {this.isFinish = true}
+      this.activeIndex = this.activeIndex + 1
     },
     setActive(idx) {
+      if (this.isFinish) {return}
       this.activeIndex = idx
     },
-    getCorrectStepIndex(i) {
-      return ++i
-    },
     isDone(i) {
-      return i < this.activeIndex ? true : false
+      return i < this.activeIndex
     },
     isActive(i) {
-      return i === this.activeIndex ? true : false
+      return i === this.activeIndex
     },
   },
   computed: {
+    prevBtnDisabled() {
+      return this.activeIndex === 0
+    },
     description() {
-      return this.isResetReady ?
+      return this.isFinish ?
         this.lastStepDescription :
         this.steps[this.activeIndex].text
     },
     nextOrFinishBtnText() {
-      if (this.isResetReady) return 'Начать заново'
+      if (this.isFinish) return 'Начать заново'
       if (this.isLastStep) return 'Закончить'
       return 'Вперед'
     },
     isLastStep() {
-      return this.activeIndex === this.steps.length - 1 ? true : false
+      return this.activeIndex === this.steps.length - 1
     },
-    isResetReady() {
-      return this.activeIndex > this.steps.length - 1 ? true : false
-    }
   }
 }
 

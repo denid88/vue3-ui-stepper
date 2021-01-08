@@ -23,14 +23,14 @@
             :class="{done: isDone(i), active: isActive(i)}"
             @click="setActive(i)"
           >
-            <span>{{getCorrectStepIndex(i)}}</span> {{step.title}}
+            <span>{{i + 1}}</span> {{step.title}}
           </li>
         </ul>
         <div>
-          <button class="btn" @click="prev" v-show="!isResetReady">{{prevBtnText}}</button>
-          <button class="btn" :class="{primary: !isResetReady}" @click="nextOrFinish">{{nextOrFinishBtnText}}</button>
+          <button class="btn" :disabled="prevBtnDisabled" @click="prev" v-if="!isFinish">{{prevBtnText}}</button>
+          <button class="btn" :class="{primary: !isFinish}" @click="nextOrFinish">{{nextOrFinishBtnText}}</button>
         </div>
-      </div>
+      </div>`
     </div>
   </div>
 
