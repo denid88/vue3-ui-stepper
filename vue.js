@@ -17,7 +17,7 @@ const App = {
   },
   methods: {
     prev() {
-      this.activeIndex = this.activeIndex - 1
+      if (this.activeIndex !== 0) this.activeIndex = this.activeIndex - 1
     },
     reset() {
       this.activeIndex = 0
